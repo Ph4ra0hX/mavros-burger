@@ -398,73 +398,66 @@ app.post("/finalizarpedidobebidas", (req, res) => {
   res.sendFile(path.join(__dirname + "/public/finalizar.html"));
 });
 
-app
-  .post("/enviar", (req, res) => {
-    if (req.body.nome2) {
-      req.session.pedidoCompleto +=
-        "\n *NOME:* \n\n" + "    • " + req.body.nome2;
-    }
+app.post("/enviar", (req, res) => {
+  if (req.body.nome2) {
+    req.session.pedidoCompleto += "\n *NOME:* \n\n" + "    • " + req.body.nome2;
+  }
 
-    if (req.body.nome) {
-      req.session.pedidoCompleto +=
-        "\n *NOME:* \n\n" + "    • " + req.body.nome;
-      req.session.total += 1;
-    }
+  if (req.body.nome) {
+    req.session.pedidoCompleto += "\n *NOME:* \n\n" + "    • " + req.body.nome;
+    req.session.total += 1;
+  }
 
-    if (req.body.rua) {
-      req.session.pedidoCompleto +=
-        "\n\n *RUA:* \n\n" + "    • " + req.body.rua;
-    }
+  if (req.body.rua) {
+    req.session.pedidoCompleto += "\n\n *RUA:* \n\n" + "    • " + req.body.rua;
+  }
 
-    if (req.body.bairro) {
-      req.session.pedidoCompleto +=
-        "\n\n *BAIRRO:* \n\n" + "    • " + req.body.bairro;
-    }
-
-    if (req.body.numero) {
-      req.session.pedidoCompleto +=
-        "\n\n *NÚMERO DA CASA:* \n\n" + "    • " + req.body.numero;
-    }
-
-    if (req.body.referencia) {
-      req.session.pedidoCompleto +=
-        "\n\n *PONTO DE REFERÊNCIA:* \n\n" + "    • " + req.body.referencia;
-    }
-
-    req.session.queijoebom += req.session.pedidoCompleto;
-
+  if (req.body.bairro) {
     req.session.pedidoCompleto +=
-      "\n\n    • Total: " + `${req.session.total}\n\n`;
+      "\n\n *BAIRRO:* \n\n" + "    • " + req.body.bairro;
+  }
 
-    if (req.body.PIX) {
-      req.session.pedidoCompleto +=
-        "    • PIX (CPF - 08837416369)" +
-        "\n\n *OBSERVAÇÃO:* \n\n" +
-        "    " +
-        req.body.observacao;
-    }
+  if (req.body.numero) {
+    req.session.pedidoCompleto +=
+      "\n\n *NÚMERO DA CASA:* \n\n" + "    • " + req.body.numero;
+  }
 
-    if (req.body.cartao) {
-      req.session.pedidoCompleto +=
-        "    • Cartão" +
-        "\n\n *OBSERVAÇÃO:* \n\n" +
-        "    " +
-        req.body.observacao;
-    }
-    if (req.body.Dinheiro) {
-      req.session.pedidoCompleto +=
-        "    • Dinheiro" +
-        "\n\n *OBSERVAÇÃO:* \n\n" +
-        "    " +
-        req.body.observacao;
-    }
+  if (req.body.referencia) {
+    req.session.pedidoCompleto +=
+      "\n\n *PONTO DE REFERÊNCIA:* \n\n" + "    • " + req.body.referencia;
+  }
 
-    res.redirect(
-      "https://api.whatsapp.com/send?phone=558882222539&text=" +
-        req.session.pedidoCompleto
-    );
+  req.session.queijoebom += req.session.pedidoCompleto;
 
-    req.session.destroy();
-  })
-  //.listen(process.env.PORT);
+  req.session.pedidoCompleto +=
+    "\n\n    • Total: " + `${req.session.total}\n\n`;
+
+  if (req.body.PIX) {
+    req.session.pedidoCompleto +=
+      "    • PIX (CPF - 08837416369)" +
+      "\n\n *OBSERVAÇÃO:* \n\n" +
+      "    " +
+      req.body.observacao;
+  }
+
+  if (req.body.cartao) {
+    req.session.pedidoCompleto +=
+      "    • Cartão" + "\n\n *OBSERVAÇÃO:* \n\n" + "    " + req.body.observacao;
+  }
+  if (req.body.Dinheiro) {
+    req.session.pedidoCompleto +=
+      "    • Dinheiro" +
+      "\n\n *OBSERVAÇÃO:* \n\n" +
+      "    " +
+      req.body.observacao;
+  }
+
+  res.redirect(
+    "https://api.whatsapp.com/send?phone=558882222539&text=" +
+      req.session.pedidoCompleto
+  );
+
+  req.session.destroy();
+});
+//.listen(process.env.PORT);
 app.listen(3004);
